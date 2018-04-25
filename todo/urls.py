@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from tasks import views as taskview
 
 urlpatterns = [
+    path('', taskview.IndexView.as_view(), name='table'),
     path('admin/', admin.site.urls),
     #url('login/', auth_views.login, name='login'),
     #url('logout/', auth_views.logout, name='logout'),
     path('polls/', include('polls.urls')),
-    path('', include('tasks.urls')),
+    path('tasks/', include('tasks.urls')),
     path('account/', include('django.contrib.auth.urls')),
 ]
