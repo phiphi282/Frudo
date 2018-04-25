@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'registration/login.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<form class="form-signin text-center" method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+<h1 class="h3 mb-3 font-weight-normal">Frodo</h1>
+<!-- {{ form.username }}
+{{ form.username.label_tag }}
+{{ form.password }}
+{{ form.password.label_tag }} -->
+<label for="id_username" class="sr-only">Username:</label>
+<input type="text" name="username" autofocus maxlength="254" class="form-control" required id="id_username" placeholder="Username" />
+<label for="id_password" class="sr-only">Password:</label>
+<input type="password" name="password" class="form-control" required id="id_password" placeholder="Password" />
+<button class="btn btn-lg btn-primary btn-block" type="submit" value="{{ next }}">Sign in</button>
+
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
+from django.contrib.auth.models import User
+
+from .models import Task
+# Create your views here.
+
+class IndexView(LoginRequiredMixin, generic.ListView):
+    template_name = 'tasks/index.html'
+    context_object_name = 'tasks_list'
+
+    login_url = '/login/'
+
+    def get_queryset(self):
+        return Task.objects.filter(assignedto__user=self.request.user).order_by('-finished_date')
+
+class DetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+    template_name = 'tasks/detail.html'
+
+    def get_queryset(self):
+        isAllowed = Task.objects.filter(assignedto__user=self.request.user)
+        members = User.objects.filter(assignedto__task=1)

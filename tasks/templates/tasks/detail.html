@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container container-fluid">
+<h1>{{ task.task_text }}</h1>
+
+{% if notAllowed %}<p><strong>moep you are not allowed here</strong></p>
+{% else %}
+<p>{{ task.task_description }}</p>
+<ul>
+{% for member in members %}
+	<li>{{ member.username }}</li>
+{% endfor %}
+</ul>
+<h2>Comments</h2>
+</ul>
+{% for comment in comments %}
+	<li>{{ comment.comment_text }}, {{ comment.comment_user.username }}</li>
+{% endfor %}
+</ul>
+
+<h2>Make a comment</h2>
+<form action="" method=POST>
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="Submit" />
+</form>
+
+<h2>Labels</h2>
+{% for label in labels %}
+	<li>{{ label.label_text }}</li>
+{% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

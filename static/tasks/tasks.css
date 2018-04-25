@@ -1,0 +1,70 @@
+.task-holder {
+	display: none;
+}
+
+.task-title {
+	max-width: 100%
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tasks-list .task .title{
+    margin-bottom:2px
+}
+.tasks-list .task .task-labels{
+    display:inline-block
+}
+
+.tasks-list .task .icon-merge-request-unmerged{
+    height:13px;
+    margin-bottom:3px
+}
+.issuable-list li .task-box{
+    display:-webkit-flex;
+    display:flex;
+}
+ul.content-list{
+    margin:5px 0;
+    padding:0;
+    list-style:none;
+    margin:0;
+}
+ul.content-list>li{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+    display:block;
+    margin:0
+}
+.tasks-list .task{
+    padding:10px 0 10px 16px;
+    position:relative;
+}
+.tasks-list .task .title{
+    margin-bottom:2px
+}
+.tasks-list .task .task-labels{
+    display:inline-block
+}
+.tasks-list .task .icon-merge-request-unmerged{
+    height:13px;
+    margin-bottom:3px
+}
+.issuable-list li .task-box{
+    display:-webkit-flex;
+    display:flex
+}
+.issuable-list li .task-info-container{
+    -webkit-flex:1;
+    flex:1;
+    padding-right:16px
+}
+
+.pull-right {
+	float: right;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	padding-right: 16px;
+}
