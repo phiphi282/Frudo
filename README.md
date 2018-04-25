@@ -10,8 +10,8 @@ Frudo, ein ToDo-System realisiert mit dem Django-Framework.
 <br />
 # lokale Erreichbarkeit
 <br />
-[http://localhost:8000/](http://localhost:8000/)<br />
-[http://localhost:8000/admin](http://localhost:8000/admin/)<br />
+[Startseite](http://localhost:8000/)<br />
+[Administration](http://localhost:8000/admin/)<br />
 
 
 ## Programmierpraktikum: Soziale Netzwerke
