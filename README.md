@@ -6,7 +6,6 @@ Frudo, ein ToDo-System realisiert mit dem Django-Framework.
 # Start
 `bash new_db.sh`<br />
 `python3 manage.py runserver`<br />
-
 <br />
 # lokale Erreichbarkeit
 [Startseite](http://localhost:8000/) | [Administration](http://localhost:8000/admin/)
