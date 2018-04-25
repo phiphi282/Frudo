@@ -62,9 +62,15 @@ ul.content-list>li{
 }
 
 .pull-right {
-	float: right;
 	display: -webkit-flex;
 	display: flex;
 	align-items: center;
-	padding-right: 16px;
+	justify-content: flex-end;
+	margin-right: 16px;
+}
+
+.divider {
+	width: 5px;
+	height: auto;
+	display: inline-block;
 }

@@ -62,3 +62,8 @@ class NewLabelView(LoginRequiredMixin, generic.CreateView):
     template_name = 'tasks/newlabel.html'
     form_class = CreateLabelForm
     success_url = reverse_lazy('tasks:index')
+
+class EditTaskView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    template_name = 'tasks/newtask.html'
+    form_class = CreateLabelForm
