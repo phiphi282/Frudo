@@ -138,6 +138,8 @@ EMAIL_USE_TLS = True
 
 LOGIN_REDIRECT_URL = '/tasks'
 
+LOGIN_URL = '/account/login/'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

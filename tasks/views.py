@@ -13,8 +13,6 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'tasks/index.html'
     context_object_name = 'tasks_list'
 
-    login_url = '/login/'
-
     def get_queryset(self):
         return Task.objects.filter(assignedTo=self.request.user).order_by('-finished_date')
 
