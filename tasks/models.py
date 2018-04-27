@@ -24,13 +24,13 @@ class Task(models.Model):
     creation_date = models.DateTimeField()
     is_finished = models.BooleanField(default=False)
     important = models.BooleanField()
-    assignedTo = models.ManyToManyField(User)
-    labels = models.ManyToManyField(Label)
+    assignedTo = models.ManyToManyField(User, blank=True)
+    labels = models.ManyToManyField(Label, blank=True)
 
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['task_text', 'task_description', 'finished_date', 'creation_date', 'assignedTo', 'labels', 'important']
+        fields = ['task_text', 'task_description', 'finished_date', 'assignedTo', 'labels', 'important']
 
     #assigned = forms.ModelMultipleChoiceField(queryset=User.objects.all())
 

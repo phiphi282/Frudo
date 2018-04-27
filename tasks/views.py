@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.core.mail import EmailMessage
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 
 from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm
 # Create your views here.
@@ -14,7 +15,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'tasks_list'
 
     def get_queryset(self):
-        return Task.objects.filter(assignedTo=self.request.user).order_by('-finished_date')
+        return Task.objects.filter(assignedTo=self.request.user, is_finished=False).order_by('-finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
     model = Task
@@ -49,10 +50,13 @@ class NewTaskView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy('tasks:index')
 
     def form_valid(self, form):
+        self.obj = form.save(commit=False)
+        self.obj.creation_date = timezone.now()
+        self.obj.save()
         response = super(NewTaskView, self).form_valid(form)
 
-        mail = EmailMessage('Test', 'So ne Nachricht', 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
-        mail.send()
+        #mail = EmailMessage('Test', 'So ne Nachricht', 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
+        #mail.send()
         return response
 
 class NewLabelView(LoginRequiredMixin, generic.CreateView):
@@ -65,3 +69,13 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     template_name = 'tasks/newtask.html'
     form_class = CreateLabelForm
+
+def finishTask(request, task_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('tasks:index'))
+    task = get_object_or_404(Task, pk=task_id)
+
+    task.is_finished = True;
+    task.save()
+
+    return HttpResponseRedirect(reverse('tasks:index'))

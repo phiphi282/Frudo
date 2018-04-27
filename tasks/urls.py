@@ -9,4 +9,5 @@ urlpatterns = [
     path('create/', views.NewTaskView.as_view(), name='create'),
     path('newlabel/', views.NewLabelView.as_view(), name='newlabel'),
     path('<int:pk>/edit/', views.EditTaskView.as_view(), name='edit'),
+    path('<int:task_id>/finish/', views.finishTask, name='finishTask'),
 ]

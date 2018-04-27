@@ -8,6 +8,8 @@
 		<li class="task">
 			<div class="container-fluid container-limited">
 			<div class="task-box">
+			<button type="button" class="btn btn-primary" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+			<div class="divider"></div>
 			<div class="task-info-container">
 			<div class="task-title title">
 			<span class="task-title-text">
