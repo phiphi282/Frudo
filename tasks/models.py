@@ -16,6 +16,10 @@ class CreateLabelForm(forms.ModelForm):
         model = Label
         fields = ['label_text', 'label_description', 'label_color']
 
+    label_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    label_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    label_color = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
 # Create your models here.
 class Task(models.Model):
     task_text = models.CharField(max_length=64)
