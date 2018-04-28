@@ -24,7 +24,7 @@ class CreateLabelForm(forms.ModelForm):
 class Task(models.Model):
     task_text = models.CharField(max_length=64)
     task_description = models.CharField(max_length=512)
-    finished_date = models.DateTimeField()
+    finished_date = models.DateField()
     creation_date = models.DateTimeField()
     is_finished = models.BooleanField(default=False)
     important = models.BooleanField()
