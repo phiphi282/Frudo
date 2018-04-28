@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+import logging
 
 from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm
 # Create your views here.
@@ -60,11 +61,12 @@ class NewTaskView(LoginRequiredMixin, generic.CreateView):
         self.obj = form.save(commit=False)
         self.obj.creation_date = timezone.now()
         self.obj.save()
-        response = super(NewTaskView, self).form_valid(form)
+        #response = super(NewTaskView, self).form_valid(form)
 
-        #mail = EmailMessage('Test', 'So ne Nachricht', 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
+        #mail = EmailMessage('Test', self.obj.assignedTo, 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
         #mail.send()
-        return response
+        return super(NewTaskView, self).form_valid(form)
+        #return response
 
 class NewLabelView(LoginRequiredMixin, generic.CreateView):
     model = Label
