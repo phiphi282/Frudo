@@ -49,6 +49,13 @@ class NewTaskView(LoginRequiredMixin, generic.CreateView):
     form_class = CreateTaskForm
     success_url = reverse_lazy('tasks:index')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['labels'] = Label.objects.all
+        context['members'] = User.objects.all
+
+        return context;
+
     def form_valid(self, form):
         self.obj = form.save(commit=False)
         self.obj.creation_date = timezone.now()

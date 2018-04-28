@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #url('login/', auth_views.login, name='login'),
     #url('logout/', auth_views.logout, name='logout'),
-    path('polls/', include('polls.urls')),
     path('tasks/', include('tasks.urls')),
     path('account/', include('django.contrib.auth.urls')),
 ]

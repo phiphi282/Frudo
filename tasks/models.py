@@ -32,7 +32,9 @@ class CreateTaskForm(forms.ModelForm):
         model = Task
         fields = ['task_text', 'task_description', 'finished_date', 'assignedTo', 'labels', 'important']
 
-    #assigned = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+    task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    #assignedTo = forms.MultiWidget(widget=forms.CheckboxSelectMultiple(attrs={'class':'js-example-basic-multiple'}))
 
 class Subtask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
