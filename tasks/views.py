@@ -78,12 +78,11 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     template_name = 'tasks/newtask.html'
     form_class = CreateTaskForm
+    success_url = reverse_lazy('tasks:index')
 
     def form_valid(self, form):
             #save cleaned post data
-            clean = form.cleaned_data
-            context = {}
-            self.object = context.save(clean)
+            self.object = form.save()
             return super(EditTaskView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -92,6 +91,9 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
         context['members'] = User.objects.all
 
         return context;
+
+class ImpressumView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'tasks/impressum.html'
 
 
 def finishTask(request, task_id):
