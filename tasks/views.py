@@ -75,7 +75,22 @@ class NewLabelView(LoginRequiredMixin, generic.CreateView):
 class EditTaskView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     template_name = 'tasks/newtask.html'
-    form_class = CreateLabelForm
+    form_class = CreateTaskForm
+
+    def form_valid(self, form):
+            #save cleaned post data
+            clean = form.cleaned_data
+            context = {}
+            self.object = context.save(clean)
+            return super(EditTaskView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['labels'] = Label.objects.all
+        context['members'] = User.objects.all
+
+        return context;
+
 
 def finishTask(request, task_id):
     if not request.user.is_authenticated:
