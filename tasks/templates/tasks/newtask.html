@@ -22,7 +22,7 @@
 		<div class="form-group row">
 			<label for={{ form.assignedTo.id_for_label }} class="col-sm-2 col-form-label">{{ form.assignedTo.label_tag }}</label>
 			<div class="col-sm-4">
-				<select class="form-control" multiple="multiple" style="width: 100%" name="option" id="{{ form.assignedTo.auto_id}}">
+				<select class="form-control" multiple="multiple" style="width: 100%" name="{{ form.assignedTo.name }}" id="{{ form.assignedTo.auto_id}}">
       					{% for member in members %}
 						<option value="{{ member.id }}">{{ member.username }}</option>
 					{% endfor %}
@@ -30,21 +30,21 @@
 			</div>
 			<label for={{ form.finished_date.id_for_label }} class="col-sm-2 col-form-label">{{ form.finished_date.label_tag }}</label>
 			<div class="col-sm-4">
-				<input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control">
+				<input type="date" name="{{ form.finished_date.name}}" min="1000-01-01" max="3000-12-31" class="form-control">
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="{{ form.labels.id_for_label }}" class="col-sm-2 col-form-label">{{ form.labels.label_tag }}</label>
 			<div class="col-sm-4">
-				<select class="select_label_class form-control" multiple="multiple" style="width: 100%" name="option" id="{{ form.labels.auto_id }}">
+				<select class="select_label_class form-control" multiple="multiple" style="width: 100%" name="{{ form.labels.name }}" id="{{ form.labels.auto_id }}">
 				{% for label in labels %}
 					<option value="{{ label.id }}">{{ label.label_text }}</option>
 				{% endfor %}
 				</select>
 			</div>
 		</div>
-			<input class="btn btn-success" type="submit" value="Save" />
-			<button type="button" class="btn float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
+		<input class="btn btn-success" type="submit" value="Save" />
+		<button type="button" class="btn float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
 	</form>
 </div>
 
