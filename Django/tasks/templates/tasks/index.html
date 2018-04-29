@@ -28,19 +28,23 @@
 								</span>
 							</div>
 							<!-- Task information -->
-							<div class="task-info">
-								<!-- Due date -->
-								{{ task.finished_date }}
-								<!-- Labels -->
-								{% for label in task.labels.all %}
-								<span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="{{ label.label_description }}">
-									<a href="#" class="badge badge-pill" style="background-color: {{ label.label_color }}; color: #FFFFFF">{{ label.label_text }}</a>
-								</span>
-								{% endfor %}
+							<div class="task-info row align-items-center">
+								<div class="col-sm-8">
+									<!-- Due date -->
+									{{ task.finished_date }}
+									<!-- Labels -->
+									{% for label in task.labels.all %}
+									<span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="{{ label.label_description }}">
+										<a href="#" class="badge badge-pill" style="background-color: {{ label.label_color }}; color: #FFFFFF">{{ label.label_text }}</a>
+									</span>
+									{% endfor %}
+								</div>
 								<!-- Progress -->
-								<span class="pull-right">
-									{{ task.progress }} %
-								</span>
+								<div class="col-sm-4">
+									<div class="progress">
+	 									<div class="progress-bar" role="progressbar" style="width: {{ task.progress }}%;" aria-valuenow="{{ task.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- In the future, we might use a label for important tasks -->
