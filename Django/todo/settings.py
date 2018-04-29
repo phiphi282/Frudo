@@ -26,7 +26,7 @@ SECRET_KEY = '+0q&zbs2c9$1av@lt=np)ju5h331v)zwg#l+2u9@+ob2gxsm+^'
 DEBUG = True
 
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', '')]
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', ''), 'localhost']
 
 
 # Application definition
@@ -120,7 +120,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Email setting 
+# Email setting
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
