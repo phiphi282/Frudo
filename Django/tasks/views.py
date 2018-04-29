@@ -16,7 +16,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'tasks_list'
 
     def get_queryset(self):
-        return Task.objects.filter(assignedTo=self.request.user, is_finished=False).order_by('-finished_date')
+        return Task.objects.filter(is_finished=False).order_by('-finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
     model = Task
