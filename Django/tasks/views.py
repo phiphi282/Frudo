@@ -76,7 +76,7 @@ class NewLabelView(LoginRequiredMixin, generic.CreateView):
 
 class EditTaskView(LoginRequiredMixin, generic.UpdateView):
     model = Task
-    template_name = 'tasks/newtask.html'
+    template_name = 'tasks/edittask.html'
     form_class = CreateTaskForm
     success_url = reverse_lazy('tasks:index')
 
@@ -89,6 +89,9 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
         context = super().get_context_data(**kwargs)
         context['labels'] = Label.objects.all
         context['members'] = User.objects.all
+        context['finished_date'] = self.get_object().finished_date
+        context['curr_labels'] = self.get_object().labels.all
+        context['curr_members'] = self.get_object().assignedTo.all
 
         return context;
 

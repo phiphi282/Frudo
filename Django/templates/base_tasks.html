@@ -1,4 +1,5 @@
 {% extends "base_generic.html" %}
+{% load static %}
 
 {% block extrahead %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -8,7 +9,7 @@
 {% block navbar %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container container-fluid">
-			<a class="navbar-brand" href="{% url 'tasks:index' %}">Frudo</a>
+			<a class="navbar-brand" href="{% url 'tasks:index' %}"><img src="{% static 'tasks/img/Frudo_Logo.svg' %}" width="30" height="30" class="d-inline-block align-top bg-white rounded border" alt=""> Frudo</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportContent" aria-controls="navbarSupportContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
