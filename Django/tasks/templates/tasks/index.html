@@ -1,0 +1,44 @@
+{% extends "base_tasks.html" %}
+
+{% block content %}
+{% if tasks_list %}
+	<div class="container container-fluid">
+	<ul class="content-list tasks-list issuable-list">
+	{% for task in tasks_list %}
+		<li class="task">
+			<div class="container-fluid container-limited">
+			<div class="task-box">
+			<button type="button" class="btn btn-primary" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+			<div class="divider"></div>
+			<div class="task-info-container">
+			<div class="task-title title">
+			<span class="task-title-text">
+			<a href="{% url 'tasks:detail' task.id %}">{{ task.task_text }}</a>
+			</span>
+			</div>
+			<div class="task-info">
+				Due to {{ task.finished_date }}
+				{% for label in task.labels.all %}
+				<span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="{{ label.label_description }}">
+					<a href="#" class="badge badge-pill" style="background-color: {{ label.label_color }}; color: #FFFFFF">{{ label.label_text }}</a>
+				</span>
+				{% endfor %}
+			</div>
+			</div>
+				{% if task.important %}
+				<div class="pull-right">
+					important	
+				</div>
+				{% endif %}
+			</div>
+			</div>
+			<!-- Add number of comments-->
+		</li>
+	{% endfor %}
+	</ul>
+	</div>
+{% else %}
+	<p>No tasks are available</p>
+{% endif %}
+
+{% endblock %}
