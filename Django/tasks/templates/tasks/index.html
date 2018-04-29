@@ -8,12 +8,18 @@
 		<li class="task">
 			<div class="container-fluid container-limited">
 				<div class="task-box">
-					<button type="button" class="btn btn-primary" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
 					<div class="divider"></div>
 					<div class="task-info-container">
 						<div class="task-title title">
 							<span class="task-title-text">
 								<a href="{% url 'tasks:detail' task.id %}">{{ task.task_text }}</a>
+							</span>
+							<span class="pull-right">
+								{% for assignee in task.assignedTo.all %}
+								<span class="d-inline-block" tabindex="1" data-toggle="tooltip" data-placement="bottom" title="{{ assignee }}">
+									<a href="#" class="badge">{{ assignee }}</a>
+								</span>
+								{% endfor %}
 							</span>
 						</div>
 						<div class="task-info">
@@ -23,9 +29,9 @@
 								<a href="#" class="badge badge-pill" style="background-color: {{ label.label_color }}; color: #FFFFFF">{{ label.label_text }}</a>
 							</span>
 							{% endfor %}
-							<div class="pull-right">
+							<span class="pull-right">
 								{{ task.progress }} %
-							</div>
+							</span>
 						</div>
 					</div>
 					{% comment %}
@@ -35,6 +41,7 @@
 					</div>
 					{% endif %}
 					{% endcomment %}
+					<button type="button" class="btn btn-outline-danger" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
 				</div>
 			</div>
 			<!-- Add number of comments-->
