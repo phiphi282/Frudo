@@ -57,3 +57,5 @@ class CreateCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_text']
+
+    comment_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
