@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/phiphi282/Frudo.svg?branch=master)](https://travis-ci.org/phiphi282/Frudo)
+
 # Frudo
 Frudo, ein ToDo-System realisiert mit dem Django-Framework.
 
