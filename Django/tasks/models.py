@@ -30,11 +30,12 @@ class Task(models.Model):
     important = models.BooleanField()
     assignedTo = models.ManyToManyField(User, blank=True)
     labels = models.ManyToManyField(Label, blank=True)
+    progress = models.IntegerField(default=0)
 
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['task_text', 'task_description', 'finished_date', 'assignedTo', 'labels', 'important']
+        fields = ['task_text', 'task_description', 'finished_date', 'assignedTo', 'labels', 'important', 'progress']
 
     task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))

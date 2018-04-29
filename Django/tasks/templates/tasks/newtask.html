@@ -42,6 +42,10 @@
 				{% endfor %}
 				</select>
 			</div>
+			<label for={{ form.progress.id_for_label }} class="col-sm-2 col-form-label">{{ form.progress.label_tag }}</label>
+			<div class="col-sm-4">
+				{{ form.progress }}
+			</div>
 		</div>
 		<input class="btn btn-success" type="submit" value="Save" />
 		<button type="button" class="btn btn-outline-danger float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
