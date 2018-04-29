@@ -18,3 +18,10 @@ install:
 script:
   - docker ps | grep -q frudo
   - python manage.py test
+  - docker tag frudo frudo/frudo
+
+deploy:
+  provider: script
+  script: ../docker_push.sh
+  on:
+    branch: master
