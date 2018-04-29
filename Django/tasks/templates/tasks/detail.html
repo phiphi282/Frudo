@@ -7,9 +7,9 @@
 			<h1>{{ task.task_text }}</h1>
 		</div>
 		<div class="col pull-right">
-			<button type="button" class="btn btn-primary" onclick="location.href= '{% url 'tasks:edit' task.id %}';">Edit</button>
+			<button type="button" class="btn btn-outline-primary" onclick="location.href= '{% url 'tasks:edit' task.id %}';">Edit</button>
 			<div class="divider"></div>
-			<button type="button" class="btn btn-warning" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+			<button type="button" class="btn btn-outline-danger" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
 			<div class="divider"></div>
 			<button type="button" class="btn btn-success" onclick="location.href= '{% url 'tasks:create' %}';">New Task</button>
 		</div>
@@ -26,8 +26,10 @@
 		<h2>Comments</h2>
 		{% for comment in comments %}
 			<div class="bg-light rounded">
-				{{ comment.comment_text }} <br>
-				<p class="text-right">{{ comment.comment_user.username }} on {{ comment.comment_date | date:"jS F Y H:i"}}</p>
+				<div class="m-2">
+					<span>{{ comment.comment_text }}</span>
+					<p class="text-right small">{{ comment.comment_user.username }} on {{ comment.comment_date | date:"jS F Y H:i"}}</p>
+				</div>
 			</div>
 		{% endfor %}
 		<div class="border rounded p-2">
@@ -46,7 +48,6 @@
 		</div>
 	</div>
 	<div class="col-sm-4 bg-light">
-
 		<h2>Labels</h2>
 		<ul>
 		{% for label in labels %}
