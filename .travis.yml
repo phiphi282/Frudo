@@ -9,11 +9,12 @@ services:
   - docker
 
 install:
-  - pip3 install Django/requirements.txt
-  - ./Django/new_db.sh
-  - python3 Django/manage.py runserver
+  - pip3 install requirements.txt
   - docker build -t frudo .
   - docker run -d -p 127.0.0.1:80:80 --name blog blog<Paste>
+  - cd project
+  - ./new_db.sh
+  - python3 manage.py runserver
 
 script:
   - python Django/manage.py runserver
