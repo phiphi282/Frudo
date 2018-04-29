@@ -26,7 +26,7 @@
       					{% for member in members %}
 						<option value="{{ member.id }}">{{ member.username }}</option>
 					{% endfor %}
-				</select>	
+				</select>
 			</div>
 			<label for={{ form.finished_date.id_for_label }} class="col-sm-2 col-form-label">{{ form.finished_date.label_tag }}</label>
 			<div class="col-sm-4">
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<input class="btn btn-success" type="submit" value="Save" />
-		<button type="button" class="btn float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
+		<button type="button" class="btn btn-outline-danger float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
 	</form>
 </div>
 
