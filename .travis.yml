@@ -12,7 +12,7 @@ install:
   - pip3 install -r requirements.txt
   - docker build -t frudo .
   - docker run -d -p 127.0.0.1:80:80 --name frudo frudo
-  - cd project
+  - cd Django
   - ./new_db.sh
   - python3 manage.py runserver
 
