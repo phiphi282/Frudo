@@ -23,13 +23,18 @@
 								<a href="#" class="badge badge-pill" style="background-color: {{ label.label_color }}; color: #FFFFFF">{{ label.label_text }}</a>
 							</span>
 							{% endfor %}
+							<div class="pull-right">
+								{{ task.progress }} %
+							</div>
 						</div>
 					</div>
+					{% comment %}
 					{% if task.important %}
 					<div class="pull-right">
 						important
 					</div>
 					{% endif %}
+					{% endcomment %}
 				</div>
 			</div>
 			<!-- Add number of comments-->
