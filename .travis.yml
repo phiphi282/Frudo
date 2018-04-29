@@ -14,7 +14,6 @@ install:
   - docker run -d -p 127.0.0.1:80:80 --name frudo frudo
   - cd Django
   - ./new_db.sh
-  - python3 manage.py runserver
 
 script:
   - docker ps | grep -q frudo
