@@ -32,6 +32,9 @@ class Task(models.Model):
     labels = models.ManyToManyField(Label, blank=True)
     progress = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.task_text
+
 class CreateTaskForm(forms.ModelForm):
     class Meta:
         model = Task
