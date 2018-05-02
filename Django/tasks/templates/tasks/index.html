@@ -1,8 +1,8 @@
 {% extends "base_tasks.html" %}
 
 {% block content %}
-{% if tasks_list %}
 	<div class="container container-fluid">
+	{% if tasks_list %}
 		<!-- Task list -->
 		<ul class="content-list issuable-list"><!--  -->
 		{% for task in tasks_list %}
@@ -61,9 +61,9 @@
 			</li>
 		{% endfor %}
 		</ul>
+	{% else %}
+		<p>No tasks are available</p>
+	{% endif %}
 	</div>
-{% else %}
-	<p>No tasks are available</p>
-{% endif %}
 
 {% endblock %}

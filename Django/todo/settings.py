@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -68,6 +71,12 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 
@@ -140,6 +149,20 @@ LOGIN_REDIRECT_URL = '/tasks'
 
 LOGIN_URL = '/account/login/'
 
+# LDAP Stuff
+
+AUTH_LDAP_SERVER_URI = os.environ.get('LDAP_URL', '')
+
+AUTH_LDAP_BIND_DN = os.environ.get('LDAP_BIND_DN', '')
+AUTH_LDAP_BIND_PASSWORD = os.environ.get('LDAP_PASSWORD', '')
+AUTH_LDAP_USER_SEARCH = LDAPSearch(os.environ.get('LDAP_SEARCH', ''),
+    ldap.SCOPE_SUBTREE, "(uid=%(username)")
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

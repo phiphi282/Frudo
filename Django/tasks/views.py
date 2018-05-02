@@ -96,7 +96,7 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
 
         return context;
 
-class ImpressumView(LoginRequiredMixin, generic.TemplateView):
+class ImpressumView(generic.TemplateView):
     template_name = 'tasks/impressum.html'
 
 
