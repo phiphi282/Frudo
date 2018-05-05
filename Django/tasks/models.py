@@ -2,6 +2,8 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Label(models.Model):
     label_text = models.CharField(max_length=32)
@@ -43,6 +45,14 @@ class CreateTaskForm(forms.ModelForm):
     task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
     #assignedTo = forms.MultiWidget(widget=forms.CheckboxSelectMultiple(attrs={'class':'js-example-basic-multiple'}))
+
+    def clean_finished_date(self):
+        finished = self.cleaned_data['finished_date']
+
+        if finished < timezone.now().date():
+            raise ValidationError("Date too early")
+
+        return finished
 
 class Subtask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)

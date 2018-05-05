@@ -156,7 +156,7 @@ AUTH_LDAP_SERVER_URI = os.environ.get('LDAP_URL', '')
 AUTH_LDAP_BIND_DN = os.environ.get('LDAP_BIND_DN', '')
 AUTH_LDAP_BIND_PASSWORD = os.environ.get('LDAP_PASSWORD', '')
 AUTH_LDAP_USER_SEARCH = LDAPSearch(os.environ.get('LDAP_SEARCH', ''),
-    ldap.SCOPE_SUBTREE, "(uid=%(username)")
+    ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",

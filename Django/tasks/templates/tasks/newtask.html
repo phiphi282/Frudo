@@ -31,6 +31,9 @@
 			<label for={{ form.finished_date.id_for_label }} class="col-sm-2 col-form-label">{{ form.finished_date.label_tag }}</label>
 			<div class="col-sm-4">
 				<input type="date" name="{{ form.finished_date.name}}" min="1000-01-01" max="3000-12-31" class="form-control">
+				        <div class="text-danger small">
+						{{ form.finished_date.errors.as_text }}
+					</div>
 			</div>
 		</div>
 		<div class="form-group row">
