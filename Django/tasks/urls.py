@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/edit/', views.EditTaskView.as_view(), name='edit'),
     path('<int:task_id>/finish/', views.finishTask, name='finishTask'),
     path('impressum/', views.ImpressumView.as_view(), name='impressum'),
+    path('protocolParse/', views.ProtocolParse.as_view(), name='protocolParse'),
 ]
