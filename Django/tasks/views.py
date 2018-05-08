@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 import logging
 
-from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm
+from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm, ProtocolParseForm
 # Create your views here.
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -109,3 +109,10 @@ def finishTask(request, task_id):
     task.save()
 
     return HttpResponseRedirect(reverse('tasks:index'))
+
+class ProtocolParse(LoginRequiredMixin, generic.FormView):
+    template_name = 'tasks/newprotocol.html'
+    form_class = ProtocolParseForm
+    success_url = reverse_lazy('tasks:index')
+
+
