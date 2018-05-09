@@ -6,6 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
 import logging
 import re
 
@@ -122,15 +123,13 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         for row in rows:
             if 'TODO' in row:
                 todo = row[row.find('TODO'):]
-                users, text = todo.split(':')
+                users, text = todo.split(':', 1)
 
-                task = Task.objects.create(task_text=text, task_description='', finished_date=timezone.now(), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
+                task = Task.objects.create(task_text=text, task_description='', finished_date=(timezone.now() + timedelta(days=7)), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
 
                 for user in users.split():
                     try:
                         user_obj = User.objects.get(username=user)
-                        print(user)
-                        print(user_obj)
                         task.assignedTo.add(user_obj)
                     except User.DoesNotExist:
                         None
