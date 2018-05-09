@@ -16,12 +16,19 @@
 			<label for="{{ form.protocol_text.id_for_label }}" class="col-sm-2 col-form-label">{{ form.protocol_text.label_tag }}</label>
 			<div class="col-sm-10">
 				{{ form.protocol_text }}
+				<div class="text-danger ">
+					<h5>{{ form.protocol_url.errors.as_text }}</h5>
+				</div>
 			</div>
+
 		</div>
+
+
 		<input class="btn btn-success" type="submit" value="Execute" />
 		<button type="button" class="btn btn-outline-danger float-right" onclick="location.href= '{% url 'tasks:index' %}';">Cancel</button>
 	</form>
 </div>
 
 {% endblock %}
+
 
