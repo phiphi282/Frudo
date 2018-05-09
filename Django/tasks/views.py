@@ -7,6 +7,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 import logging
+import re
 
 from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm, ProtocolParseForm
 # Create your views here.
@@ -115,4 +116,23 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
     form_class = ProtocolParseForm
     success_url = reverse_lazy('tasks:index')
 
+    def form_valid(self, form):
+        text = self.request.POST['protocol_text']
+        rows = re.split('\n', text)
+        for row in rows:
+            if 'TODO' in row:
+                todo = row[row.find('TODO'):]
+                users, text = todo.split(':')
+
+                task = Task.objects.create(task_text=text, task_description='', finished_date=timezone.now(), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
+
+                for user in users.split():
+                    try:
+                        user_obj = User.objects.get(username=user)
+                        print(user)
+                        print(user_obj)
+                        task.assignedTo.add(user_obj)
+                    except User.DoesNotExist:
+                        None
+        return super(ProtocolParse, self).form_valid(form)
 
