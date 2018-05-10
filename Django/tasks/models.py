@@ -23,8 +23,21 @@ class CreateLabelForm(forms.ModelForm):
     label_color = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
 
 class ProtocolParseForm(forms.Form):
-    protocol_url = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    protocol_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    protocol_url = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
+    protocol_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}), required=False)
+
+    def clean(self):
+        check_form = super(ProtocolParseForm, self).clean()
+
+        if not any(
+            check_form.get(x, '')
+            for x in (
+                'protocol_url',
+                'protocol_text',
+            )
+        ):
+            self._errors['protocol_url'] = self.error_class([("You must enter at least the protocol url or text")])
+            self._errors['protocol_text'] = self.error_class([("You must enter at least the protocol url or text")])
 
 
 # Create your models here.

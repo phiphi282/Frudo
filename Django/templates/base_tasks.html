@@ -22,6 +22,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'tasks:newlabel' %}">New Label</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'tasks:protocolParse' %}">Parse Protocol</a>
+					</li>
 				</ul>
 			<form class="form-inline my-2 my-lg-0" action="{% url 'tasks:index' %}" method="GET">
       <input class="form-control mr-sm-2" type="search" name="filter" placeholder="Search" aria-label="Search">
