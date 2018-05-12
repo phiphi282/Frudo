@@ -190,7 +190,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         for row in rows:
             if 'TODO' in row:
                 todo = row[row.find('TODO'):]
-                if ':' in row:
+                if ':' in todo:
                     users, text = todo.split(':', 1)
 
                     task = Task.objects.create(task_text=text, task_description='', finished_date=(timezone.now() + timedelta(days=7)), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
