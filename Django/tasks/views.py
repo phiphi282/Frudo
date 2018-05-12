@@ -15,22 +15,41 @@ from .forms import CreateTaskForm, CreateCommentForm, CreateLabelForm, ProtocolP
 # Create your views here.
 
 class IndexView(LoginRequiredMixin, generic.ListView):
+    """This view shows the list of tasks.
+
+    Attributes:
+        template_name: The URL of the respective HTML template file
+        context_object_name: The name of the list in the template
+    """
     template_name = 'tasks/index.html'
     context_object_name = 'tasks_list'
 
     def get_queryset(self):
+        """This function retrieves all tasks according to a filter.
+        """
         filter = self.request.GET.get('filter', '')
         return Task.objects.filter(is_finished=False, task_text__contains=filter).order_by('finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
+    """This view shows the details of a certain task.
+
+    Attributes:
+        model: The model to be used (in this case, a Task)
+        template_name: The URL of the respective HTML template file
+        form_class: The form class used in this view
+    """
     model = Task
     template_name = 'tasks/detail.html'
     form_class = CreateCommentForm
 
     def get_success_url(self):
+        """This function retrieves the URL to which the user is redirected on successful use of the view.
+        """
         return reverse('tasks:detail', args=(self.get_object().pk,))
 
     def get_context_data(self, **kwargs):
+        """This function retrieves the contextual data for a given task (i. e., task, members (assignees), comments, labels).
+        """
         context = super().get_context_data(**kwargs)
         context['task'] = self.get_object()
         context['members'] = User.objects.filter(task=self.get_object())
@@ -39,6 +58,8 @@ class DetailView(LoginRequiredMixin, generic.CreateView):
         return context
 
     def form_valid(self, form):
+        """This function checks whether the form is filled in correctly or not.
+        """
         self.obj = form.save(commit=False)
         self.obj.comment_task = self.get_object()
         self.obj.comment_date = timezone.now()
@@ -49,12 +70,22 @@ class DetailView(LoginRequiredMixin, generic.CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 class NewTaskView(LoginRequiredMixin, generic.CreateView):
+    """This view shows the form for creating a new task.
+
+    Attributes:
+        model: The model to be used (in this case, a Task)
+        template_name: The URL of the respective HTML template file
+        form_class: The form class used in this view
+        success_url: The URL to which the user is redirected on successful use of the view
+    """
     model = Task
     template_name = 'tasks/newtask.html'
     form_class = CreateTaskForm
     success_url = reverse_lazy('tasks:index')
 
     def get_context_data(self, **kwargs):
+        """This function retrieves the contextual data needed for creating a new task (i. e., members (possible assignees), labels).
+        """
         context = super().get_context_data(**kwargs)
         context['labels'] = Label.objects.all
         context['members'] = User.objects.all
@@ -62,6 +93,8 @@ class NewTaskView(LoginRequiredMixin, generic.CreateView):
         return context;
 
     def form_valid(self, form):
+        """This function checks whether the form is filled in correctly or not.
+        """
         self.obj = form.save(commit=False)
         self.obj.creation_date = timezone.now()
         self.obj.save()
@@ -73,23 +106,43 @@ class NewTaskView(LoginRequiredMixin, generic.CreateView):
         #return response
 
 class NewLabelView(LoginRequiredMixin, generic.CreateView):
+    """This view shows the form for creating a new label.
+
+    Attributes:
+        model: The model to be used (in this case, a Label)
+        template_name: The URL of the respective HTML template file
+        form_class: The form class used in this view
+        success_url: The URL to which the user is redirected on successful use of the view
+    """
     model = Label
     template_name = 'tasks/newlabel.html'
     form_class = CreateLabelForm
     success_url = reverse_lazy('tasks:index')
 
 class EditTaskView(LoginRequiredMixin, generic.UpdateView):
+    """This view shows the form for creating a new label.
+
+    Attributes:
+        model: The model to be used (in this case, a Label)
+        template_name: The URL of the respective HTML template file
+        form_class: The form class used in this view
+        success_url: The URL to which the user is redirected on successful use of the view
+    """
     model = Task
     template_name = 'tasks/edittask.html'
     form_class = CreateTaskForm
     success_url = reverse_lazy('tasks:index')
 
     def form_valid(self, form):
-            #save cleaned post data
-            self.object = form.save()
-            return super(EditTaskView, self).form_valid(form)
+        """This function checks whether the form is filled in correctly or not.
+        """
+        #save cleaned post data
+        self.object = form.save()
+        return super(EditTaskView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
+        """This function retrieves the contextual data needed for creating a new task (i. e., labels, members (possible assignees), due date and current labels and members (assignees)).
+        """
         context = super().get_context_data(**kwargs)
         context['labels'] = Label.objects.all
         context['members'] = User.objects.all
@@ -100,10 +153,14 @@ class EditTaskView(LoginRequiredMixin, generic.UpdateView):
         return context;
 
 class ImpressumView(generic.TemplateView):
+    """This view shows the imprint.
+    """
     template_name = 'tasks/impressum.html'
 
 
 def finishTask(request, task_id):
+    """This function closes a task upon user request.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('tasks:index'))
     task = get_object_or_404(Task, pk=task_id)
@@ -114,11 +171,20 @@ def finishTask(request, task_id):
     return HttpResponseRedirect(reverse('tasks:index'))
 
 class ProtocolParse(LoginRequiredMixin, generic.FormView):
+    """This view shows the form for having a protocol parsed and adding its contents to the todo database.
+
+    Attributes:
+        template_name: The URL of the respective HTML template file
+        form_class: The form class used in this view
+        success_url: The URL to which the user is redirected on successful use of the view
+    """
     template_name = 'tasks/newprotocol.html'
     form_class = ProtocolParseForm
     success_url = reverse_lazy('tasks:index')
 
     def form_valid(self, form):
+        """This function checks whether the form is filled in correctly or not.
+        """
         text = self.request.POST['protocol_text']
         rows = re.split('\n', text)
         for row in rows:
@@ -136,4 +202,3 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                         except User.DoesNotExist:
                             None
         return super(ProtocolParse, self).form_valid(form)
-
