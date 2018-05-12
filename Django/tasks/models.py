@@ -1,10 +1,7 @@
 from django.db import models
-from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.core.exceptions import ValidationError
 from django.utils import timezone
-
 class Label(models.Model):
     """This class provides a label for differentiating tasks into groups.
 
@@ -20,33 +17,6 @@ class Label(models.Model):
 
     def __str__(self):
         return self.label_text
-
-class CreateLabelForm(forms.ModelForm):
-    class Meta:
-        model = Label
-        fields = ['label_text', 'label_description', 'label_color']
-
-    label_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    label_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
-    label_color = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-
-class ProtocolParseForm(forms.Form):
-    protocol_url = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), required=False)
-    protocol_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}), required=False)
-
-    def clean(self):
-        check_form = super(ProtocolParseForm, self).clean()
-
-        if not any(
-            check_form.get(x, '')
-            for x in (
-                'protocol_url',
-                'protocol_text',
-            )
-        ):
-            self._errors['protocol_url'] = self.error_class([("You must enter at least the protocol url or text")])
-            self._errors['protocol_text'] = self.error_class([("You must enter at least the protocol url or text")])
-
 
 # Create your models here.
 class Task(models.Model):
@@ -76,23 +46,6 @@ class Task(models.Model):
     def __str__(self):
         return self.task_text
 
-class CreateTaskForm(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = ['task_text', 'task_description', 'finished_date', 'assignedTo', 'labels', 'important', 'progress']
-
-    task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
-    #assignedTo = forms.MultiWidget(widget=forms.CheckboxSelectMultiple(attrs={'class':'js-example-basic-multiple'}))
-
-    def clean_finished_date(self):
-        finished = self.cleaned_data['finished_date']
-
-        if finished < timezone.now().date():
-            raise ValidationError("Date too early")
-
-        return finished
-
 class Subtask(models.Model):
     """Currently not used."""
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -115,9 +68,3 @@ class Comment(models.Model):
     comment_task = models.ForeignKey(Task, on_delete=models.CASCADE)
     comment_date = models.DateTimeField()
 
-class CreateCommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['comment_text']
-
-    comment_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
