@@ -10,6 +10,7 @@ services:
 
 install:
   - pip3 install -r requirements.txt
+  - pip3 install codecov coverage
   - docker build -t frudo .
   - docker run -d -p 127.0.0.1:80:80 --name frudo frudo
   - cd Django
@@ -17,8 +18,11 @@ install:
 
 script:
   - docker ps | grep -q frudo
-  - python manage.py test
+  - coverage manage.py test
   - docker tag frudo frudo/frudo
+
+after_success:
+  - codecov
 
 deploy:
   provider: script
