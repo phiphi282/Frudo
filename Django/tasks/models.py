@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+
 class Label(models.Model):
     """This class provides a label for differentiating tasks into groups.
 
@@ -67,4 +68,3 @@ class Comment(models.Model):
     comment_user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_task = models.ForeignKey(Task, on_delete=models.CASCADE)
     comment_date = models.DateTimeField()
-
