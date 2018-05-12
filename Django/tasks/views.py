@@ -10,7 +10,8 @@ from datetime import datetime, timedelta
 import logging
 import re
 
-from .models import Task, CreateTaskForm, Comment, CreateCommentForm, Label, CreateLabelForm, ProtocolParseForm
+from .models import Task, Comment, Label
+from .forms import CreateTaskForm, CreateCommentForm, CreateLabelForm, ProtocolParseForm
 # Create your views here.
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -19,7 +20,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         filter = self.request.GET.get('filter', '')
-        return Task.objects.filter(is_finished=False, task_text__contains=filter).order_by('-finished_date')
+        return Task.objects.filter(is_finished=False, task_text__contains=filter).order_by('finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
     model = Task
@@ -123,15 +124,16 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         for row in rows:
             if 'TODO' in row:
                 todo = row[row.find('TODO'):]
-                users, text = todo.split(':', 1)
+                if ':' in row:
+                    users, text = todo.split(':', 1)
 
-                task = Task.objects.create(task_text=text, task_description='', finished_date=(timezone.now() + timedelta(days=7)), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
+                    task = Task.objects.create(task_text=text, task_description='', finished_date=(timezone.now() + timedelta(days=7)), creation_date=timezone.now(), is_finished=False, important=False, progress=0)
 
-                for user in users.split():
-                    try:
-                        user_obj = User.objects.get(username=user)
-                        task.assignedTo.add(user_obj)
-                    except User.DoesNotExist:
-                        None
+                    for user in users.split():
+                        try:
+                            user_obj = User.objects.get(username=user)
+                            task.assignedTo.add(user_obj)
+                        except User.DoesNotExist:
+                            None
         return super(ProtocolParse, self).form_valid(form)
 
