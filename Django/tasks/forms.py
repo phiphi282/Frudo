@@ -58,7 +58,7 @@ class CreateTaskForm(forms.ModelForm):
 
     task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
-    progress = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    progress = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control', 'value':'0'}))
     #assignedTo = forms.MultiWidget(widget=forms.CheckboxSelectMultiple(attrs={'class':'js-example-basic-multiple'}))
 
     def clean_finished_date(self):
