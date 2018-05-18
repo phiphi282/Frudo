@@ -197,7 +197,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
 
                     for user in users.split():
                         try:
-                            user_obj = User.objects.get(username=user)
+                            user_obj = User.objects.get(username=user.lower())
                             task.assignedTo.add(user_obj)
                         except User.DoesNotExist:
                             None
