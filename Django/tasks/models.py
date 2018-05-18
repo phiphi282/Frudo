@@ -42,7 +42,6 @@ class Task(models.Model):
     important = models.BooleanField()
     assignedTo = models.ManyToManyField(User, blank=True)
     labels = models.ManyToManyField(Label, blank=True)
-    progress = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
         return self.task_text
