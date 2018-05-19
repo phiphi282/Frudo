@@ -8,7 +8,7 @@ from .models import Task, Label
 
 # Create your tests here.
 
-def create_task(task_text, task_description, finished_date, creation_date, is_finished, important, progress):
+def create_task(task_text, task_description, finished_date, creation_date, is_finished, important):
     return Task.objects.create(task_text=task_text, task_description=task_description, finished_date=finished_date, creation_date=creation_date, is_finished=is_finished, important=important)
 
 def create_label(label_text, label_description, label_color):
