@@ -44,7 +44,7 @@ class ClosedTasksView(LoginRequiredMixin, generic.ListView):
         """This function retrieves all tasks according to a filter.
         """
         filter = self.request.GET.get('filter', '')
-        return Task.objects.filter(is_finished=True, tasks_text__contains=filter).order_by('finished_date')
+        return Task.objects.filter(is_finished=True, task_text__contains=filter).order_by('finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
     """This view shows the details of a certain task.
@@ -190,13 +190,13 @@ def reopen(request, task_id):
     """This function reopens a task upon user request.
     """
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('tasks:closedIssues'))
+        return HttpResponseRedirect(reverse('tasks:closedTasks'))
     task = get_object_or_404(Task, pk=task_id)
 
     task.is_finished = False;
     task.save()
 
-    return HttpResponseRedirect(reverse('task:closedIssues'))
+    return HttpResponseRedirect(reverse('tasks:closedTasks'))
 
 class ProtocolParse(LoginRequiredMixin, generic.FormView):
     """This view shows the form for having a protocol parsed and adding its contents to the todo database.

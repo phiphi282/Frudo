@@ -46,8 +46,9 @@
 						</div>
 						{% endif %}
 						{% endcomment %}
-						<!-- Button to close a task -->
-						<button type="button" class="btn btn-outline-danger my-1" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+
+                        {%  block action_button %}<!-- Button to open or close a task -->{% endblock %}
+
 					</div>
 				</div>
 				<!-- Add number of comments-->

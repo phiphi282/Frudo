@@ -1,0 +1,5 @@
+{% extends "base_tasklist.html" %}
+
+{% block action_button %}
+    <button type="button" class="btn btn-outline-danger my-1" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+{% endblock %}
