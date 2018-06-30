@@ -216,9 +216,10 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         text = self.request.POST['protocol_text']
         rows = re.split('\n', text)
         email_task_content = ""
+        description = ""
         for row in rows:
             if row.startswith('* '):
-                description = rows[2:]
+                description = row[2:]
 
             if 'TODO' in row:
                 todo = row[row.find('TODO'):]
