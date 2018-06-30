@@ -217,8 +217,15 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         rows = re.split('\n', text)
         email_task_content = ""
         description = ""
+        todo = ""
+        email_content = ""
         for row in rows:
             if row.startswith('* '):
+                if todo != "":
+                    add_topic = "Thema in der Sitzung: " + description + "\n\n" + email_task_content + "\n"
+                    email_content += add_topic
+                    todo = ""
+
                 description = row[2:]
 
             if 'TODO' in row:
@@ -233,7 +240,9 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                                                is_finished=False,
                                                important=False)
 
-                    email_task_content += "TODO: " + text + "\nBeauftragte(r): " + users + "\nThema in der Sitzung: " + description + "\n\n"
+                    email_task_content += "TODO: " + text + "\nBeauftragte(r): " + users[5:] + "\n"
+
+
 
                     for user in users.split():
                         try:
@@ -241,6 +250,8 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                             task.assignedTo.add(user_obj)
                         except User.DoesNotExist:
                             None
-        mail = EmailMessage('SitzungsTODOs', email_task_content, 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
+
+        email_content = "Heyho,\n\nin der Sitzung wurden neue Aufgaben verteilt.\n\n" + email_content + "Euch noch ein frohes Schaffen\nFrudo"
+        mail = EmailMessage('SitzungsTODOs', email_content, 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
         mail.send()
         return super(ProtocolParse, self).form_valid(form)
