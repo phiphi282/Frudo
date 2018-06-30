@@ -13,8 +13,8 @@
 						<div class="task-info-container">
 							<div class="row">
 								<!-- Task title -->
-								<span class="col-8 text-truncate">
-									<a href="{% url 'tasks:detail' task.id %}">{{ task.task_text }}</a>
+								<span class="col-8">
+									<a href="{% url 'tasks:detail' task.id %}">{{ task.task_text | truncatechars:80 }}</a>
 								</span>
 								<!-- Task assignees -->
 								<span class="text-right col-4">
