@@ -1,0 +1,5 @@
+{% extends "base_tasklist.html" %}
+
+{% block action_button %}
+    <button type="button" class="btn btn-outline-warning my-1" onclick="location.href= '{% url 'tasks:reopen' task.id %}';">Reopen</button>
+{% endblock %}

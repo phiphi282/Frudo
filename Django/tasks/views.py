@@ -21,7 +21,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         template_name: The URL of the respective HTML template file
         context_object_name: The name of the list in the template
     """
-    template_name = 'tasks/index.html'
+    template_name = 'tasks/listopentasks.html'
     context_object_name = 'tasks_list'
 
     def get_queryset(self):
@@ -29,6 +29,22 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         """
         filter = self.request.GET.get('filter', '')
         return Task.objects.filter(is_finished=False, task_text__contains=filter).order_by('finished_date')
+
+class ClosedTasksView(LoginRequiredMixin, generic.ListView):
+    """ This view shows the list of closed tasks
+
+    Attributes
+        template_name: The path to the respective HTML template file
+        context_object_name: The name of the list in the template
+    """
+    template_name = 'tasks/listclosedtasks.html'
+    context_object_name = 'tasks_list'
+
+    def get_queryset(self):
+        """This function retrieves all tasks according to a filter.
+        """
+        filter = self.request.GET.get('filter', '')
+        return Task.objects.filter(is_finished=True, task_text__contains=filter).order_by('finished_date')
 
 class DetailView(LoginRequiredMixin, generic.CreateView):
     """This view shows the details of a certain task.
@@ -169,6 +185,18 @@ def finishTask(request, task_id):
     task.save()
 
     return HttpResponseRedirect(reverse('tasks:index'))
+
+def reopen(request, task_id):
+    """This function reopens a task upon user request.
+    """
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('tasks:closedTasks'))
+    task = get_object_or_404(Task, pk=task_id)
+
+    task.is_finished = False;
+    task.save()
+
+    return HttpResponseRedirect(reverse('tasks:closedTasks'))
 
 class ProtocolParse(LoginRequiredMixin, generic.FormView):
     """This view shows the form for having a protocol parsed and adding its contents to the todo database.
