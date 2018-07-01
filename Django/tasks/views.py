@@ -7,6 +7,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
+from django.conf import settings
 import logging
 import re
 
@@ -217,14 +218,15 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         rows = re.split('\n', text)
         email_task_content = ""
         description = ""
-        todo = ""
+        text = ""
         email_content = ""
         for row in rows:
             if row.startswith('* '):
-                if todo != "":
-                    add_topic = "Thema in der Sitzung: " + description + "\n\n" + email_task_content + "\n"
+                if text != "":
+                    add_topic = "Thema in der Sitzung: " + description + "\n" + email_task_content
+                    email_task_content = ""
                     email_content += add_topic
-                    todo = ""
+                    text = ""
 
                 description = row[2:]
 
@@ -240,7 +242,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                                                is_finished=False,
                                                important=False)
 
-                    email_task_content += "TODO: " + text + "\nBeauftragte(r): " + users[5:] + "\n"
+                    email_task_content += "  TODO:          " + text + "\n  Beauftragte(r): " + users[5:] + "\n\n"
 
 
 
@@ -252,6 +254,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                             None
 
         email_content = "Heyho,\n\nin der Sitzung wurden neue Aufgaben verteilt.\n\n" + email_content + "Euch noch ein frohes Schaffen\nFrudo"
-        mail = EmailMessage('SitzungsTODOs', email_content, 'phillip@dangernoodle', ['phillip@freitagsrunde.org'])
-        mail.send()
+        mail = EmailMessage('SitzungsTODOs', email_content, settings.EMAIL_HOST_USER, [settings.EMAIL_GROUP_RECEIVE])
+        if (settings.EMAIL_HOST != "example.com"):
+            mail.send()
         return super(ProtocolParse, self).form_valid(form)

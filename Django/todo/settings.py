@@ -133,15 +133,20 @@ USE_TZ = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = "mail.dangernoodle.de"
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'example.com')
 
-EMAIL_PORT = 587
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 
-EMAIL_HOST_USER = "phillip@dangernoodle.de"
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'user@example.com')
 
-EMAIL_HOST_PASSWORD = "SECRET"
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = ( os.environ.get('EMAIL_USE_TLS', 'True') == 'True' )
+
+EMAIL_USE_SSL = ( os.environ.get('EMAIL_USE_SSL', 'False') == 'True' )
+
+
+EMAIL_GROUP_RECEIVE = os.environ.get('EMAIL_GROUP_RECEIVE', 'user@example.com')
 
 # Login Stuff
 
