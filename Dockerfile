@@ -10,4 +10,4 @@ RUN apt update && apt -y install libsasl2-dev python-dev libldap2-dev libssl-dev
 
 COPY entrypoint.sh /var/opt/
 
-CMD ["cron", "&&", "bash", "entrypoint.sh"]
+CMD ["bash", "entrypoint.sh"]
