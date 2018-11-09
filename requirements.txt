@@ -1,3 +1,5 @@
 Django==2.0.4
 pytz==2018.4
 django-auth-ldap==1.5.0
+djangorestframework
+markdown
