@@ -221,19 +221,22 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         text = ""
         email_content = ""
         for row in rows:
-            if row.startswith('* '):
+            #depricated for etherpad: if row.startswith('* '):
+            if row.startswith('####: '):
                 if text != "":
                     add_topic = "Thema in der Sitzung: " + description + "\n" + email_task_content
                     email_task_content = ""
                     email_content += add_topic
                     text = ""
 
-                description = row[2:]
+                description = row[5:]
 
             if 'TODO' in row:
                 todo = row[row.find('TODO'):]
                 if ':' in todo:
                     users, text = todo.split(':', 1)
+                    if len(users) < 6:
+                        users = "TODO alle:"
 
                     task = Task.objects.create(task_text=text,
                                                task_description='zum Thema in der Sitzung: '+description,
