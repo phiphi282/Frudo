@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         for task in unassigned:
             print(task.task_text)
-            email_content += "    " + task.task_text + "\n"
+            email_content += "    " + task.task_text + " ( https://frudo.freitagsrunde.org/tasks/" + task.id + "/ )\n"
 
         mail = EmailMessage('Unbearbeitete ToDos', email_content, settings.EMAIL_HOST_USER, [settings.EMAIL_GROUP_RECEIVE])
         mail.send()
