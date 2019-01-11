@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from tasks.models import Task
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     help = "Send mails to all users with unfinished polls"
@@ -11,6 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if (settings.EMAIL_HOST == "example.com"):
             return
+        logger.info("Sending emails to users");
         users = User.objects.all()
         for user in users:
             tasks = Task.objects.filter(is_finished=False, assignedTo__in=[user.id]).distinct()
