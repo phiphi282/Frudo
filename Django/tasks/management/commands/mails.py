@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 continue
             email_content = "Heyho,\n\n du hast noch folgende Todos offen:\n\n"
             for task in tasks:
-                email_content += "    " + task.task_text + " ( https://frudo.freitagsrunde.org/tasks/" + task.id + "/ )\n"
+                email_content += "    " + task.task_text + " ( https://frudo.freitagsrunde.org/tasks/" + str(task.id) + "/ )\n"
 
             mail = EmailMessage('Unbearbeitete ToDos', email_content, settings.EMAIL_HOST_USER, [user.username + "@" + settings.EMAIL_HOST])
             mail.send()
@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         for task in unassigned:
             print(task.task_text)
-            email_content += "    " + task.task_text + " ( https://frudo.freitagsrunde.org/tasks/" + task.id + "/ )\n"
+            email_content += "    " + task.task_text + " ( https://frudo.freitagsrunde.org/tasks/" + str(task.id) + "/ )\n"
 
         mail = EmailMessage('Unbearbeitete ToDos', email_content, settings.EMAIL_HOST_USER, [settings.EMAIL_GROUP_RECEIVE])
         mail.send()
