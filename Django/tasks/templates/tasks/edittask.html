@@ -12,12 +12,28 @@
 				{{ form.task_text }}
 			</div>
 		</div>
+        {% if form.task_text.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> {{ form.task_text.errors.as_text }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        {% endif %}
 		<div class="form-group row">
 			<label for={{ form.task_description.id_for_label }} class="col-sm-2 col-form-label">{{ form.task_description.label_tag }}</label>
 			<div class="col-sm-10">
 				{{ form.task_description }}
 			</div>
 		</div>
+        {% if form.task_description.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> {{ form.task_description.errors.as_text }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        {% endif %}
 		<hr />
 		<div class="form-group row">
 			<label for={{ form.assignedTo.id_for_label }} class="col-sm-2 col-form-label">{{ form.assignedTo.label_tag }}</label>
