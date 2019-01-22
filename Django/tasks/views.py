@@ -243,8 +243,6 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                 todo = row[row.find('TODO'):]
                 if ':' in todo:
                     users, text = todo.split(':', 1)
-                    #if len(users) < 6:
-                    #    users = "TODO alle:"
 
                     task = Task.objects.create(task_text=text,
                                                task_description='zum Thema in der Sitzung: '+description,
@@ -255,7 +253,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
 
                     email_task_content += "  TODO:          " + text + "\n  Beauftragte(r): " + users[5:] + "\n\n"
 
-                    for user in users.split():
+                    for user in [x.strip() for x in users.split(",")]:
                         try:
                             user_obj = User.objects.get(username=user.lower())
                             task.assignedTo.add(user_obj)
