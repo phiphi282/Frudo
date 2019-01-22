@@ -222,11 +222,19 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
         email_content = ""
         for row in rows:
             #depricated for etherpad: if row.startswith('* '):
+
+            # if a new topic starts
             if row.startswith('####: '):
+
+                # if previous topic has TODOs
                 if text != "":
+                    # create e-mail subheader based on topics for TODOs
                     add_topic = "Thema in der Sitzung: " + description + "\n" + email_task_content
+                    # reset e-mail content
                     email_task_content = ""
+                    # add TODO tasks after topic title
                     email_content += add_topic
+                    # reset task text
                     text = ""
 
                 description = row[5:]
@@ -235,8 +243,8 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
                 todo = row[row.find('TODO'):]
                 if ':' in todo:
                     users, text = todo.split(':', 1)
-                    if len(users) < 6:
-                        users = "TODO alle:"
+                    #if len(users) < 6:
+                    #    users = "TODO alle:"
 
                     task = Task.objects.create(task_text=text,
                                                task_description='zum Thema in der Sitzung: '+description,
@@ -247,14 +255,19 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
 
                     email_task_content += "  TODO:          " + text + "\n  Beauftragte(r): " + users[5:] + "\n\n"
 
-
-
                     for user in users.split():
                         try:
                             user_obj = User.objects.get(username=user.lower())
                             task.assignedTo.add(user_obj)
                         except User.DoesNotExist:
                             None
+
+        # in case last topic has TODOs
+        if text != "":
+            add_topic = "Thema in der Sitzung: " + description + "\n" + email_task_content
+            email_task_content = ""
+            email_content += add_topic
+            text = ""
 
         email_content = "Heyho,\n\nin der Sitzung wurden neue Aufgaben verteilt.\n\n" + email_content + "Euch noch ein frohes Schaffen\nFrudo"
         mail = EmailMessage('SitzungsTODOs', email_content, settings.EMAIL_HOST_USER, [settings.EMAIL_GROUP_RECEIVE])
