@@ -253,7 +253,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
 
                     email_task_content += "  TODO:          " + text + "\n  Beauftragte(r): " + users[5:] + "\n\n"
 
-                    for user in [x.strip() for x in users.split(",")]:
+                    for user in [x.strip() for x in users[5:].split(",")]:
                         try:
                             user_obj = User.objects.get(username=user.lower())
                             task.assignedTo.add(user_obj)
