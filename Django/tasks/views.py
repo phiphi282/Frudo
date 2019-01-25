@@ -224,7 +224,7 @@ class ProtocolParse(LoginRequiredMixin, generic.FormView):
             #depricated for etherpad: if row.startswith('* '):
 
             # if a new topic starts
-            if row.startswith('####: '):
+            if row.startswith('#### '):
 
                 # if previous topic has TODOs
                 if text != "":
