@@ -58,7 +58,6 @@ class CreateTaskForm(forms.ModelForm):
 
     task_text = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     task_description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
-    #assignedTo = forms.MultiWidget(widget=forms.CheckboxSelectMultiple(attrs={'class':'js-example-basic-multiple'}))
 
     def clean_finished_date(self):
         """This function checks that the due date of the newly created task is not before the current date.
