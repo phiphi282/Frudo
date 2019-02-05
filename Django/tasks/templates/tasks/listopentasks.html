@@ -1,5 +1,12 @@
 {% extends "base_tasklist.html" %}
 
 {% block action_button %}
-    <button type="button" class="btn btn-outline-danger my-1" onclick="location.href= '{% url 'tasks:finishTask' task.id %}';">Close</button>
+    <script type="text/javascript">
+        function confirm_close(){
+            if (confirm("Do you want to close the task?")){
+                location.href= '{% url 'tasks:finishTask' task.id %}';
+            }
+        }
+    </script>
+    <button type="button" class="btn btn-outline-danger my-1" onclick=confirm_close();>Close</button>
 {% endblock %}
